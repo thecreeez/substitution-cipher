@@ -11,7 +11,7 @@ const LOAD = {
     "JA": "н",
     "ON": "к",
     "AN": "а",
-    "BM": "<EMPTY>",
+    "BM": "",
     "GH": "7",
     "DD": "г",
     "OO": "у",
@@ -55,6 +55,6 @@ const LOAD = {
     "KB": "4",
     "GA": "3",
     "AJ": "0",
-    "OP": "<img src=\"prikol.png\" width=20 height=20>"
+    "OP": "?"
   }
 }
