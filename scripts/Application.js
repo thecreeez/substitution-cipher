@@ -159,7 +159,7 @@ class Application {
 
     letters.forEach((letterPair, i) => {
       formedText.push({
-        text: this._dictionary[letterPair] ? this._dictionary[letterPair] : `<img src="prikol.png" width=20 height=20>`,
+        text: this._dictionary[letterPair] ? this._dictionary[letterPair] : ``,
         known: !!this._dictionary[letterPair],
         tooltip: letterPair
       });

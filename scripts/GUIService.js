@@ -1,7 +1,7 @@
 class GUIService {
   constructor(text) {
     this._textParentElement = document.getElementById("textParent");
-    this._dictionaryRulesElement = document.getElementById("dictionaryParent");
+    this._dictionaryTable = document.getElementById("dictionaryTable");
 
     this._text = text;
   }
@@ -31,14 +31,45 @@ class GUIService {
    * }
    */
   renderRules(rules) {
-    let innerHTML = "";
+    const createRulesMatrix = (rules) => {
+      const ALPHABET = new Set(rules.map(rule => rule.encrypted[0]).sort());
+      const rulesMatrix = [['-']];
+      rulesMatrix[0].push(...ALPHABET);
 
-    rules.forEach((rule) => {
-      innerHTML += `
-      <div class="alert alert-secondary" role="alert">${rule.encrypted} => ${rule.decrypted} <button type="button" class="btn btn-dark" onclick="guiService.removeRule('${rule.encrypted}')">Remove</button></div>`
-    })
+      ALPHABET.forEach(letter =>
+          rulesMatrix.push([letter]));
 
-    this._dictionaryRulesElement.innerHTML = innerHTML;
+      const line = new Array(ALPHABET.size).fill("-");
+      for (let i = 1; i <= ALPHABET.size; i++) {
+        rulesMatrix[i].push(...line);
+      }
+
+      return rulesMatrix;
+    }
+
+    const fillRulesMatrix = (rulesMatrix, rules) => {
+      rules.forEach(rule => {
+        const j = rulesMatrix[0].indexOf(rule.encrypted[0]);
+        const i = rulesMatrix[0].indexOf(rule.encrypted[1]);
+        rulesMatrix[i][j] = rule.decrypted;
+      })
+    }
+
+    const fillHtmlTable = (rulesMatrix) => {
+      rulesMatrix.forEach(line => {
+        const tr = document.createElement('tr');
+        line.forEach(rule => {
+          const td = document.createElement('tr');
+          td.innerText = rule;
+          tr.appendChild(td);
+        })
+        this._dictionaryTable.appendChild(tr);
+      })
+    }
+
+    const rulesMatrix = createRulesMatrix(rules);
+    fillRulesMatrix(rulesMatrix, rules);
+    fillHtmlTable(rulesMatrix);
   }
 
   render() {
